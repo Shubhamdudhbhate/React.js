@@ -1,0 +1,71 @@
+
+
+
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <Layout/>,
+//     children: [
+//       {
+//         path: "",
+//         element: <Home />
+//       },
+//       {
+//         path: "about",
+//         element: <About />
+//       },
+//       {
+//         path: "contact",
+//         element: <Contact />
+//       }
+//     ]
+//   }
+// ])
+
+
+
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import Layout from './Layout.jsx'
+import Home from './components/Home/Home.jsx'
+import About from './components/About/About.jsx'
+import Contact from './components/Contact/Contact.jsx'
+import Leetcode, { leetcodeLoader } from './components/Leetcode/Leetcode.jsx'
+import User from './components/User/User.jsx'
+import Github, { githubInfoLoader } from './components/Github/Github.jsx'
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Layout />}>
+      <Route path='' element={<Home />} />
+      <Route path='about' element={<About />} />
+      <Route path='contact' element={<Contact />} />
+      <Route path='user/:userid' element={<User />} />
+      <Route 
+        path='github' 
+        loader={githubInfoLoader} 
+        element={<Github />} 
+      />
+      <Route 
+        path='leetcode' 
+        loader={leetcodeLoader} 
+        element={<Leetcode />} 
+      />
+      <Route 
+        path='*' 
+        element={<h1 className='text-3xl text-center text-red-500'>Page Not Found</h1>} 
+      />
+    </Route>
+  )
+)
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+)
+

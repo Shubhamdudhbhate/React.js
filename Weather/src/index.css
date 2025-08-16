@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add smooth background transition */
+body {
+  transition: background 1s ease;
+  font-family: 'Inter', sans-serif;
+}
