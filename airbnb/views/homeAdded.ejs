@@ -1,0 +1,185 @@
+<%- include('partials/head') %>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Card glow & pulse */
+  .success-card {
+    position: relative;
+    background: #1a1a1a;
+    padding: 3rem 2.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    color: #fff;
+    z-index: 5;
+    animation: pulse-glow 1.5s ease-in-out infinite, rotate-card 2s ease-in-out infinite;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff;
+  }
+
+  .success-card h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px #ffffff, 0 0 30px #ffffff;
+  }
+
+  .success-card p {
+    font-size: 1.125rem;
+    color: #ffffff;
+  }
+
+  .success-card a {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, #0d00ff 0%, #00ff15 50%, #000000 100%);
+    background-size: 200% 100%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: shimmer 2s linear infinite;
+  }
+
+  .success-card a:hover {
+    background-position: 100% 0;
+    transform: translateY(-2px);
+  }
+
+  /* Pulse glow and rotate */
+  @keyframes pulse-glow {
+    0%,100% { box-shadow: 0 0 20px #ff00f2, 0 0 40px #fff3f3; }
+    50% { box-shadow: 0 0 40px #72f1ff, 0 0 80px #22ff00; }
+  }
+
+  @keyframes rotate-card {
+    0%,100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+    75% { transform: rotate(-2deg); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200px; }
+    100% { background-position: 200px; }
+  }
+
+  /* Flames */
+  .fire-container {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .flame {
+    width: 20px;
+    height: 60px;
+    margin: 0 5px;
+    background: radial-gradient(circle at 50% 50%, #1100ff 0%, transparent 70%);
+    border-radius: 50% 50% 20% 20%;
+    animation: flameMove 1s infinite ease-in-out;
+  }
+
+  .flame:nth-child(2) { animation-delay: 0.2s; height: 70px; }
+  .flame:nth-child(3) { animation-delay: 0.4s; height: 50px; }
+  .flame:nth-child(4) { animation-delay: 0.6s; height: 65px; }
+
+  @keyframes flameMove {
+    0%,100% { transform: scaleY(1) translateY(0); opacity: 0.8; }
+    50% { transform: scaleY(1.5) translateY(-20px); opacity: 1; }
+  }
+
+  /* Sparks */
+  .spark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffdd33 0%, transparent 70%);
+    opacity: 0.9;
+    animation: fly 1s ease-out forwards;
+  }
+
+  @keyframes fly {
+    0% { transform: scale(0) translate(0,0); opacity: 1; }
+    100% { transform: scale(2) translate(var(--x), var(--y)); opacity: 0; }
+  }
+
+  /* Smoke */
+  .smoke {
+    position: absolute;
+    bottom: 50px;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: smokeRise 3s infinite;
+    z-index: 0;
+  }
+
+  @keyframes smokeRise {
+    0% { transform: translateY(0) scale(0.5); opacity: 0.5; }
+    50% { transform: translateY(-60px) scale(1); opacity: 0.3; }
+    100% { transform: translateY(-120px) scale(1.5); opacity: 0; }
+  }
+
+</style>
+</head>
+<body>
+  <!-- Flames -->
+  <div class="fire-container">
+    <div class="flame"></div>
+    <div class="flame"></div>
+    <div class="flame"></div>
+    <div class="flame"></div>
+  </div>
+
+  <!-- Smoke -->
+  <div class="smoke" style="left:45%; animation-delay:0s;"></div>
+  <div class="smoke" style="left:50%; animation-delay:0.5s;"></div>
+  <div class="smoke" style="left:55%; animation-delay:1s;"></div>
+
+  <!-- Success Card -->
+  <div class="success-card" id="successCard">
+    <h1>Home Registered Successfully</h1>
+    <p>Your home has been added to our listings.</p>
+    <a href="/">Return to Home</a>
+  </div>
+
+  <script>
+    // Create sparks continuously
+    const createSparks = () => {
+      for(let i=0;i<15;i++){
+        let spark = document.createElement('div');
+        spark.classList.add('spark');
+        const x = (Math.random()*300 - 150) + 'px';
+        const y = (Math.random()*300 - 150) + 'px';
+        spark.style.setProperty('--x', x);
+        spark.style.setProperty('--y', y);
+        spark.style.background = `radial-gradient(circle, hsl(${Math.random()*60}, 100%, 50%) 0%, transparent 70%)`;
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 1000);
+      }
+    }
+    setInterval(createSparks, 1200);
+    window.onload = createSparks;
+  </script>
+</body>
+</html>

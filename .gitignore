@@ -1,0 +1,43 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Environment variables
+.env*
+
+# Build / output folders
+dist/
+build/
+
+# Temp folders
+tmp/
+temp/
+
+# Coverage
+coverage/
+
+# IDE files
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# MacOS
+.DS_Store
+
+# Media assets (images/videos) that are large or not necessary for repo
+/public/uploads/
+/assets/images/
+/assets/videos/
+*.mp4
+*.mov
+*.avi
+*.webm
+
+# Misc
+*.swp
+*.bak
